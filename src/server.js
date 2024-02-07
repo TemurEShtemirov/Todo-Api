@@ -10,11 +10,15 @@ async function bootstrap() {
   const mongo_url = process.env.DBURL || "mongodb://localhost:27017/todos";
 
   mongoose
-    .connect(mongo_url)
+    .connect(mongo_url, {
+      useNewUrlParser: true,
+      useCreateInddex: true,
+      useUnifiedTopology: true,
+    })
     .then(() => console.log(`SERVER CONNECTED TO MONGODB SUCCESSFULY`))
     .catch(() => console.log(`MONGODB ERROR: ${err}`));
 
-    app.listen(port,()=>console.log(`Server listening on ${port}`))
+  app.listen(port, () => console.log(`Server listening on ${port}`));
 }
 
-bootstrap()
+bootstrap();
