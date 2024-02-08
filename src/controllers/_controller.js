@@ -35,7 +35,7 @@ export const GetTodoById = async (req, res) => {
     res.status(200).json({
       succes: true,
       todo: todo,
-      message: `Tod Found By Id: ${todo} is found `,
+      message: `Todo Found By Id:'${todo._id}' is found `,
     });
   } catch (err) {
     res.status(500).json({

@@ -5,10 +5,13 @@ const TodoSchema = new mongoose.Schema(
     title: {
       type: String,
       require: true,
+      min: 20,
+      max: 100,
     },
     description: {
       type: String,
       require: true,
+      max: 500,
     },
     isFinished: {
       type: String,
