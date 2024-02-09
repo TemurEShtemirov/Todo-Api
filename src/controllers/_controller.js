@@ -69,3 +69,69 @@ export const CreateTodo = async (req, res) => {
     });
   }
 };
+
+export const PutTodo = async (req, res) => {
+  // id
+  const TodoId = req.params.id;
+  const { title, description, isFinished } = req.body;
+
+  try {
+    const PutTodo = await TodoModel.findByIdAndUpdate(
+      TodoId,
+      title,
+      description,
+      isFinished,
+      { new: true }
+    );
+
+    if (!PutTodo) {
+      return res.status(404).json({
+        success: false,
+        todo: null,
+        message: `Todo is not found with id : ${TodoId}`,
+      });
+    }
+
+    res.status(201).json({
+      success: true,
+      todo: PutTodo,
+      message: "Todo has been edited successfully",
+    });
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      error: err.message,
+      message: "Bad Request",
+    });
+  }
+};
+
+export const PatchTodo = async (req, res) => {
+  const todoId = req.params.id;
+
+  try {
+    const todo = await TodoModel.findByIdAndUpdate(todoId, req.body, {
+      new: true,
+    });
+
+    if (!todo) {
+      return res.status(404).json({
+        success: false,
+        todo: null,
+        message: `Todo is not found with id : ${todoId}`,
+      });
+    }
+
+    res.status(201).json({
+      success: true,
+      todo: todo,
+      message: "Todo has been edited successfully",
+    });
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      error: err.message,
+      message: "Bad Request",
+    });
+  }
+};
