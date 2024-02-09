@@ -135,3 +135,46 @@ export const PatchTodo = async (req, res) => {
     });
   }
 };
+
+export const DeleteAllTodos = async (req, res) => {
+  try {
+    const todos = await TodoModel.deleteMany({});
+
+    res.status(200).json({
+      success: true,
+      message: "All Todos deleted successfully",
+    });
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      error: err.message,
+      message: "Bad Request",
+    });
+  }
+};
+
+export const DeleteTodoById = async (req, res) => {
+  const id = req.params.id;
+  try {
+    const todo = await TodoModel.findByIdAndDelete(id);
+    if (!todo) {
+      return res.status(404).json({
+        success: false,
+        todo: null,
+        message: `Todo is not found with id : ${id}`,
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      todo: todo,
+      message: `Todo has been deleted with id : ${id}`,
+    });
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      error: err.message,
+      message: "Bad Request",
+    });
+  }
+};
